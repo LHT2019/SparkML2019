@@ -13,7 +13,7 @@ object test_spark {
     val data = sc.textFile("./data/wc.txt").cache()
     data.flatMap(_.split(" ")).map((_,1)).reduceByKey(_+_).foreach(
       word =>{
-        println(word)
+        println(word._1 + " --- " + word._2)
       }
     )
   }

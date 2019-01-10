@@ -1,0 +1,12 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS dw_rcm_hitop_userapps_dm
+(
+    device_id           STRING,
+    devid_applist       STRING,
+    device_name         STRING,
+    pay_ability         STRING
+)row format delimited fields terminated by '\t';
+
+
+
+
+load data local inpath '/opt/sxt/recommender/script/userdownload.txt' into table dw_rcm_hitop_userapps_dm;

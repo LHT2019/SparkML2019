@@ -1,0 +1,23 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS dim_rcm_hitop_id_list_ds
+(
+    hitop_id    STRING,
+    name        STRING,
+    author      STRING,
+    sversion    STRING,
+    ischarge    SMALLINT,
+    designer    STRING,
+    font        STRING,
+    icon_count  INT,
+    stars       DOUBLE,
+    price       INT,
+    file_size   INT,     
+    comment_num INT,
+    screen      STRING,
+    dlnum       INT
+)row format delimited fields terminated by '\t';
+
+
+load data local inpath '/lht0/rcmd/applist.txt' into table dim_rcm_hitop_id_list_ds;
+
+
+
