@@ -1,6 +1,7 @@
 package bjsxt.wv
 
 import org.apache.spark.mllib.feature.Word2Vec
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkConf}
 
 /**

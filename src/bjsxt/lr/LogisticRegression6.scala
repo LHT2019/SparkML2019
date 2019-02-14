@@ -24,7 +24,6 @@ object LogisticRegression6 {
       val features: Vector = scalerModel.transform(point.features.toDense)
       new LabeledPoint(label,features)
     }
-
     val splits = normalizeInputData.randomSplit(Array(0.7, 0.3))
     val (trainingData, testData) = (splits(0), splits(1))
     val lr=new LogisticRegressionWithLBFGS()
