@@ -13,7 +13,7 @@ import scala.collection.mutable.ArrayBuffer
 object ConvertIndex {
 
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("lda").setMaster("local[3]")
+    val conf = new SparkConf().setAppName("lda").setMaster("local[*]")
     val sc = new SparkContext(conf)
     val data = sc.textFile("分词结果.txt").cache()
     val wordlist = data.flatMap{line =>

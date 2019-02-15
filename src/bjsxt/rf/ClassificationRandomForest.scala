@@ -33,7 +33,7 @@ object ClassificationRandomForest {
     //特征最大装箱数,即连续数据离散化的区间
     val maxBins = 32
     //训练随机森林分类器，trainClassifier 返回的是 RandomForestModel 对象
-    val model = RandomForest.trainClassifier(trainingData, numClasses, categoricalFeaturesInfo,
+    val model: RandomForestModel = RandomForest.trainClassifier(trainingData, numClasses, categoricalFeaturesInfo,
       numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins)
     //打印模型
     println(model.toDebugString)

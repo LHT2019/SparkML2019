@@ -1,7 +1,9 @@
 package bjsxt.rf
 
+import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.tree.DecisionTree
 import org.apache.spark.mllib.util.MLUtils
+import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.spark.mllib.tree.model.DecisionTreeModel
 // 标签：有无出车祸 最后一个唯独有表示车速，连续值
@@ -13,7 +15,7 @@ object ClassificationDecisionTree {
   sc.setLogLevel("WARN")
 
   def main(args: Array[String]): Unit = {
-    val data = MLUtils.loadLibSVMFile(sc, "汽车数据样本.txt")
+    val data: RDD[LabeledPoint] = MLUtils.loadLibSVMFile(sc, "汽车数据样本.txt")
     // Split the data into training and test sets (30% held out for testing)
     val splits = data.randomSplit(Array(0.7, 0.3))
     val (trainingData, testData) = (splits(0), splits(1))
@@ -32,7 +34,7 @@ object ClassificationDecisionTree {
     //设置离散化程度,连续数据需要离散化,分成几个区间这个参数来,默认其实就是32,分割的区间保证数量差不多
     val maxBins=32
     //生成模型
-    val model =DecisionTree.trainClassifier(trainingData,numClasses,categoricalFeaturesInfo,impurity,maxDepth,maxBins)
+    val model: DecisionTreeModel =DecisionTree.trainClassifier(trainingData,numClasses,categoricalFeaturesInfo,impurity,maxDepth,maxBins)
 
 //    model.save(sc, "")
 //    DecisionTreeModel.load(sc, "")
