@@ -20,10 +20,10 @@ import scala.collection.Map
 object  Recommonder{
   def main(args: Array[String]) {
     Logger.getLogger("org.apache.spark").setLevel(Level.ERROR)
-    val conf = new SparkConf().setAppName("recom").setMaster("local")
+    val conf = new SparkConf().setAppName("recom").setMaster("local[*]")
     val sc = new SparkContext(conf)
     //加载数据，用\t分隔开
-    val data: RDD[Array[String]] = sc.textFile("111111_1").map(_.split("\t"))
+    val data: RDD[Array[String]] = sc.textFile("000000_0", 10).map(_.split("\t"))
     //得到第一列的值，也就是label
     val label: RDD[String] = data.map(_.take(1)(0))
     //格式化数据，用;做分隔符，分割之后是例如Item.id,hitop_id55:1
@@ -83,7 +83,7 @@ object  Recommonder{
     lr.optimizer.setStepSize(0.1)
     val model: LogisticRegressionModel = lr.run(la)
 
-//    model.save(sc, "model\\rcmd")
+//    model.save(sc, "model/rcmd")
 
     //模型结果权重
     val weights: Array[Double] = model.weights.toArray
@@ -108,6 +108,5 @@ object  Recommonder{
     }
     pw.flush()
     pw.close()
-
   }
 }

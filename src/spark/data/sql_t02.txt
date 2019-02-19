@@ -1,0 +1,4 @@
+name,age,score
+Lucy,22,98
+Lily,21,100
+Tom,22,97

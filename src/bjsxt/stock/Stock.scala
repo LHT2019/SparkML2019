@@ -92,7 +92,7 @@ object Stock {
   }
 
   def getStandardScaler(inputData : RDD[LabeledPoint]): StandardScalerModel = {
-    val vectors = inputData.map(_.features)
+    val vectors: RDD[Vector] = inputData.map(_.features)
     // 均值归一化 并且 方差归一化
     val scalerModel = new StandardScaler(withMean = true, withStd = true).fit(vectors)
     scalerModel
@@ -164,8 +164,8 @@ object Stock {
   def run(inputData : RDD[LabeledPoint]): Stock = {
 
     // 模型归一化,让模型对数据进行归一化
-    val scalerModel = getStandardScaler(inputData)
-    val normalizedInputData = inputData.map{ point =>
+    val scalerModel: StandardScalerModel = getStandardScaler(inputData)
+    val normalizedInputData: RDD[LabeledPoint] = inputData.map{ point =>
       // 这里其实可以广播变量scalerModel,让每个节点仅持有一份
       point.copy(features = scalerModel.transform(point.features.toDense))
     }
@@ -185,9 +185,9 @@ object Stock {
   }
 
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("stock").setMaster("local[3]")
+    val conf = new SparkConf().setAppName("stock").setMaster("local[*]")
     val sc = new SparkContext(conf)
-    val input = MLUtils.loadLibSVMFile(sc, "002089特征.txt").cache()
+    val input: RDD[LabeledPoint] = MLUtils.loadLibSVMFile(sc, "002089特征.txt").cache()
     val model = Stock.run(input)
     // 保存我们的模型
     //   model.save(sc,"002089")
