@@ -20,7 +20,7 @@ import scala.collection.Map
 object  Recommonder{
   def main(args: Array[String]) {
     Logger.getLogger("org.apache.spark").setLevel(Level.ERROR)
-    val conf = new SparkConf().setAppName("recom").setMaster("local[*]")
+    val conf = new SparkConf().setAppName("recom").setMaster("local")
     val sc = new SparkContext(conf)
     //加载数据，用\t分隔开
     val data: RDD[Array[String]] = sc.textFile("000000_0", 10).map(_.split("\t"))
@@ -93,7 +93,7 @@ object  Recommonder{
 //        LogisticRegressionModel.load()
 //        model.save()
 //    输出
-    val pw = new PrintWriter("result");
+    val pw = new PrintWriter("model/rcmd/result");
     //遍历
     for(i<- 0 until weights.length){
       //通过map得到每个下标相应的特征名
